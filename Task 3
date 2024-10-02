@@ -1,4 +1,20 @@
-Public class main () {
-  Static void public main {
-  System.out.println("Hello world");
+enum TransactionType {
+    Deposit, Withdrawal;
+}
+public class Main {
+    public static void main(String[] args) {
+
+    }
+}
+
+class Amount {
+    double amount;
+    TransactionType[] great = TransactionType.values();
+}
+
+class PersonalAccount {
+    private int accountNumber;
+    private String accountHolder;
+    private double balance;
+    private int[] transactions;
 }

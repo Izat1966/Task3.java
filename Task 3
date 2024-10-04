@@ -1,20 +1,89 @@
 enum TransactionType {
-    Deposit, Withdrawal;
+    DEPOSIT, WITHDRAWAL;
 }
+
 public class Main {
     public static void main(String[] args) {
-
+        PersonalAccount account = new PersonalAccount(123456, "Jeenbekov Aidar");
+        account.deposit(1000);
+        account.withdraw(500);
+        account.deposit(200);
+        account.withdraw(100);
+        account.printTransactionHistory();
+        System.out.println("Current balance: " + account.getBalance());
     }
 }
 
 class Amount {
     double amount;
-    TransactionType[] great = TransactionType.values();
+    TransactionType transactionType;
+
+    public Amount(double amount, TransactionType transactionType) {
+        this.amount = amount;
+        this.transactionType = transactionType;
+    }
+
+    public void printAmount() {
+        System.out.println(transactionType + ": " + amount);
+    }
 }
+
 
 class PersonalAccount {
     private int accountNumber;
     private String accountHolder;
     private double balance;
-    private int[] transactions;
+    private Amount[] transactions;
+    private int transactionCount;
+    
+    public PersonalAccount(int accountNumber, String accountHolder) {
+        this.accountNumber = accountNumber;
+        this.accountHolder = accountHolder;
+        this.balance = 0.0;
+        this.transactions = new Amount[100]; 
+        this.transactionCount = 0; 
+    }
+    
+    public void deposit(double amount) {
+        if (amount > 0) {
+            this.balance += amount;
+            transactions[transactionCount] = new Amount(amount, TransactionType.DEPOSIT);
+            transactionCount++;
+            System.out.println("Deposit successful: " + amount);
+        } else {
+            System.out.println("Deposit amount must be positive.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            this.balance -= amount;
+            transactions[transactionCount] = new Amount(amount, TransactionType.WITHDRAWAL);
+            transactionCount++;
+            System.out.println("Withdrawal successful: " + amount);
+        } else if (amount > balance) {
+            System.out.println("Insufficient balance.");
+        } else {
+            System.out.println("Withdrawal amount must be positive.");
+        }
+    }
+
+    public void printTransactionHistory() {
+        System.out.println("Transaction history for account " + accountNumber + ":");
+        for (int i = 0; i < transactionCount; i++) {
+            transactions[i].printAmount();
+        }
+    }
+
+    public double getBalance() {
+        return this.balance;
+    }
+
+    public int getAccountNumber() {
+        return this.accountNumber;
+    }
+
+    public String getAccountHolder() {
+        return this.accountHolder;
+    }
 }
